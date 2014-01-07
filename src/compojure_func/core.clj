@@ -36,7 +36,7 @@
     (let [response-code (code method url)]
       (assert-equal status response-code)))
 
-(defn- contains-text 
+(defn contains-text 
   "Return boolen ture if a response body contains specified text"
   [body text]
   (boolean 

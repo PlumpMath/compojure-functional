@@ -10,3 +10,12 @@
     (f/with-app app
       (f/assert-response :get "/" 200)
       (f/assert-response :get "/foobar" 404))))
+
+(deftest contains-text-test
+  (testing "Should return true if body matches text"
+    (is (f/contains-text "Hello there sir" "sir"))))
+
+(deftest assert-contains-test
+  (testing "Returns true if body matches specified text"
+    (f/with-app app
+      (f/assert-contains :get "/" "Hello world"))))
