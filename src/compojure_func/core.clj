@@ -24,21 +24,31 @@
   [method url & params]
   (->> (request web-app method url (into [] params))
        :body))
+
+(defn code 
+  [method url & params]
+  (->> (request web-app method url (into [] params))
+       :status))
   
 (defn assert-response
   "Assert a response matches a given status"
   [method url status]
-    (let [response-code (:status (request web-app method url))]
+    (let [response-code (code method url)]
       (assert-equal status response-code)))
 
 (defn- contains-text 
   "Return boolen ture if a response body contains specified text"
   [body text]
-  (boolean (re-find (re-pattern text) body)))
+  (boolean 
+     (re-find 
+       (re-pattern text) body)))
 
 (defn assert-contains
   "Assert a response body contains specified text"
   [method url expected-text]
-  (when-let [response-body (:body (request web-app method url))]
-    (t/is (contains-text response-body expected-text))))
+  (when-let [response-body 
+               (:body 
+                 (request web-app method url))]
+    (t/is (contains-text 
+             response-body expected-text))))
 
