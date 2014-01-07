@@ -1,10 +1,38 @@
 # compojure-func
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure library for functional testing Compojure apps.
 
 ## Usage
 
-FIXME
+```clojure
+(ns myapp.test
+  (:require [myapp.web :as web]
+            [compojure-func :as f]))
+
+(def app web/handler)
+
+(deftest test-routes
+   (testing "Should return HTTP success"
+     (f/with-app app
+       (f/assert-response :get "/" 404))))
+
+
+(deftest home-page-test
+
+  (testing "Should return HTTP success"
+    (f/with-app app
+	  (f/assert-response :get "/" 200)))
+
+  (testing "Homepage should contain \"Hello world\""
+    (f/with-app app
+	  (f/assert-contains :get "/" "Hello world"))))
+
+(deftest private-page-test
+  (testing "Should return HTTP not found when not logged in"
+    (f/with-app app
+	  (f/assert-response :get "/private" 404))))
+
+```
 
 ## License
 
