@@ -3,8 +3,6 @@
 
 (def ^:dynamic web-app nil)
 
-(alias t/is assert!)
-
 (defn assert-equal 
   "Helper method for assertions"
   [a b]
@@ -21,6 +19,11 @@
   [app & body]
   `(binding [web-app ~app]
      (do ~@body))) 
+
+(defn body
+  [method url & params]
+  (->> (request web-app method url (into [] params))
+       :body))
   
 (defn assert-response
   "Assert a response matches a given status"
@@ -37,5 +40,5 @@
   "Assert a response body contains specified text"
   [method url expected-text]
   (when-let [response-body (:body (request web-app method url))]
-    (assert! (contains-text response-body expected-text))))
+    (t/is (contains-text response-body expected-text))))
 
