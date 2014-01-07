@@ -11,12 +11,6 @@ A Clojure library for functional testing Compojure apps.
 
 (def app web/handler)
 
-(deftest test-routes
-   (testing "Should return HTTP success"
-     (f/with-app app
-       (f/assert-response :get "/" 404))))
-
-
 (deftest home-page-test
 
   (testing "Should return HTTP success"
