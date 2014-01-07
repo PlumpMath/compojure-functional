@@ -7,24 +7,24 @@ A Clojure library for functional testing Compojure apps.
 ```clojure
 (ns myapp.test
   (:require [myapp.web :as web]
-            [compojure-func :as f]))
+            [compojure-func]))
 
 (def app web/handler)
 
 (deftest home-page-test
 
   (testing "Should return HTTP success"
-    (f/with-app app
-	  (f/assert-response :get "/" 200)))
+    (with-app app
+	  (assert-response :get "/" 200)))
 
   (testing "Homepage should contain \"Hello world\""
-    (f/with-app app
-	  (f/assert-contains :get "/" "Hello world"))))
+    (with-app app
+	  (assert-contains :get "/" "Hello world"))))
 
 (deftest private-page-test
   (testing "Should return HTTP not found when not logged in"
-    (f/with-app app
-	  (f/assert-response :get "/private" 404))))
+    (with-app app
+	  (assert-response :get "/private" 404))))
 
 ```
 
